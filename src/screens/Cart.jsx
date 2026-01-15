@@ -1,24 +1,67 @@
-function Cart({ cartItems }) {
+import { useState } from "react";
+import { placeOrder } from "../services/placeOrder";
+
+function Cart({ user }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handlePlaceOrder = async () => {
+    // silently block if user missing
+    if (!user) return;
+
+    try {
+      setLoading(true);
+
+      await placeOrder({
+        user,
+        billing: {
+          name,
+          email,
+          address,
+        },
+      });
+
+      alert("Order placed successfully");
+
+      // clear form
+      setName("");
+      setEmail("");
+      setAddress("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Cart</h1>
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <h1>Billing Details</h1>
 
-      {cartItems.length === 0 && <p>No items in cart</p>}
+      <input
+        placeholder="Full Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <br /><br />
 
-      {cartItems.map((item, index) => (
-        <div key={index}>
-          <h3>{item.name}</h3>
-          <p>Rs {item.price}</p>
-        </div>
-      ))}
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br /><br />
 
-      <h2>Billing Details</h2>
+      <input
+        placeholder="Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+      />
+      <br /><br />
 
-      <input placeholder="Full Name" /><br /><br />
-      <input placeholder="Email" /><br /><br />
-      <input placeholder="Address" /><br /><br />
-
-      <button>Place Order</button>
+      <button onClick={handlePlaceOrder} disabled={loading}>
+        {loading ? "Placing Order..." : "Place Order"}
+      </button>
     </div>
   );
 }

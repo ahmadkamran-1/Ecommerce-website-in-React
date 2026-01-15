@@ -1,18 +1,18 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "../services/fakeApi";
 
-function ProductDetails({ cartItems, setCartItems }) {
+function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const product = products.find(p => p.id === Number(id));
+  const product = products.find((p) => p.id === Number(id));
 
   if (!product) {
     return <h2>Product not found</h2>;
   }
 
-  const addToCart = () => {
-    setCartItems(prev => [...prev, product]);
+  const handleAddToCart = () => {
+    // DIRECT TO BILLING — NO LOGIC
     navigate("/cart");
   };
 
@@ -21,15 +21,13 @@ function ProductDetails({ cartItems, setCartItems }) {
       <h1>{product.name}</h1>
       <p>Price: Rs {product.price}</p>
 
-      {/* IMPORTANT: button isolated */}
       <button
-  type="button"
-  onClick={addToCart}
-  style={{ marginTop: "20px", width: "100%" }}
->
-  Add to Cart
-</button>
-
+        type="button"
+        onClick={handleAddToCart}
+        style={{ marginTop: "20px", width: "100%" }}
+      >
+        Add to Cart
+      </button>
     </div>
   );
 }
