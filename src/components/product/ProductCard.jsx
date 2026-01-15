@@ -1,17 +1,16 @@
 import { useNavigate } from "react-router-dom";
 
-function ProductCard({ product, cartItems, setCartItems }) {
+function ProductCard({ product }) {
   const navigate = useNavigate();
 
-  const addToCart = () => {
-    setCartItems([...cartItems, product]);
-    navigate("/cart");
-  };
-
   return (
-    <div>
+    <div
+      className="product-card"
+      onClick={() => navigate(`/product/${product.id}`)}
+      style={{ cursor: "pointer" }}
+    >
       <h3>{product.name}</h3>
-      <button onClick={addToCart}>Add to Cart</button>
+      <p>Rs {product.price}</p>
     </div>
   );
 }

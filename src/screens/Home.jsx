@@ -1,21 +1,19 @@
 import { products } from "../services/fakeApi";
-
 import ProductCard from "../components/product/ProductCard";
 
-
-function Home({ cartItems, setCartItems }) {
+function Home() {
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="home">
       <h1>Welcome to My Shop</h1>
 
-      {products.map(product => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          cartItems={cartItems}
-          setCartItems={setCartItems}
-        />
-      ))}
+      <div className="product-list">
+        {products.map(product => (
+          <ProductCard
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </div>
     </div>
   );
 }
